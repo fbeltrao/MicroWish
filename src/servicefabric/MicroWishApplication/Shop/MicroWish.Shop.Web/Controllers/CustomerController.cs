@@ -24,6 +24,15 @@ namespace MicroWish.Shop.Web.Controllers
         }
 
 
+        public async Task<IActionResult> Get(Guid customerId)
+        {
+            var proxy = ServiceProxy.Create<ICustomerService>(new Uri("fabric:/MicroWishApplication/MicroWish.Customer.Service"));
+
+            var result = await proxy.Get(customerId);
+            return new OkObjectResult(result);
+        }
+
+
         public async Task<IActionResult> List()
         {
             var proxy = ServiceProxy.Create<ICustomerService>(new Uri("fabric:/MicroWishApplication/MicroWish.Customer.Service"));

@@ -4,6 +4,7 @@ using System.Fabric;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
@@ -76,7 +77,11 @@ namespace MicroWish.Customer.Service
             Uri documentUri = UriFactory.CreateDocumentUri(databaseId, collectionName, id.ToString());
             using (var client = CreateConnection())
             {
-                return await client.ReadDocumentAsync<CustomerModel>(documentUri);
+                return await client.ReadDocumentAsync<CustomerModel>(documentUri, new RequestOptions()
+                {
+                    PartitionKey = new PartitionKey(id.ToString())
+                }
+                );
             }
         }
 
