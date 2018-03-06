@@ -102,6 +102,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\MicroWish.Common\MicroWish.Common.csproj">
+      <Project>{6E8A336F-9363-4D96-BE1D-118F82EBF45D}</Project>
+      <Name>MicroWish.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MicroWish.Consumer.Common\MicroWish.Consumer.Common.csproj">
       <Project>{6A8203D7-5C13-4FA9-A83D-FBE9D794A00E}</Project>
       <Name>MicroWish.Consumer.Common</Name>

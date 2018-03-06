@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Fabric;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.ServiceFabric.Data;
 using Microsoft.ServiceFabric.Data.Collections;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using MicroWish.Consumer.Contracts;
-using MicroWish.Consumer.Models;
+using MicroWish.Models;
 
 namespace MicroWish.Consumer.OrderDataService
 {

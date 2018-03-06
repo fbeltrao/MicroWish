@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using MicroWish.Consumer.Commands;
-using MicroWish.Consumer.Configuration;
+using MicroWish.Commands;
+using MicroWish.Configuration;
 using MicroWish.Consumer.Contracts;
-using MicroWish.Consumer.Events;
-using MicroWish.Consumer.Models;
-using MicroWish.Consumer.ServiceFabric;
+using MicroWish.Events;
+using MicroWish.Models;
+using MicroWish.ServiceBus;
+using MicroWish.ServiceFabric;
 
 namespace MicroWish.Consumer.OrderCreatedHandler
 {
@@ -44,7 +45,7 @@ namespace MicroWish.Consumer.OrderCreatedHandler
         {
             try
             {
-                var command = message.GetBody<CreateOrderCommand>();
+                var command = message.GetJsonBody<CreateOrderCommand>();
 
                 var order = new OrderModel()
                 {
@@ -71,7 +72,7 @@ namespace MicroWish.Consumer.OrderCreatedHandler
                 var createdOrder = await orderDataService.Create(order);
 
                 // Send to topic "ordercreated"
-                await NotifyTopic(new OrderCreatedEvent(createdOrder));
+                await NotifyTopic(this.serviceBusConfiguration.OrderCreatedTopicName, new OrderCreatedEvent(createdOrder));
 
                 // Send to queue "orderverifyinventory"
                 await SendCommand(this.serviceBusConfiguration.VerifyOrderPaymentQueueName, new VerifyOrderPaymentCommand(createdOrder));
@@ -85,13 +86,15 @@ namespace MicroWish.Consumer.OrderCreatedHandler
         private async Task SendCommand(string queueName, object command)
         {
             var queueClient = QueueClient.CreateFromConnectionString(this.serviceBusConfiguration.ConnectionString, queueName);
-            await queueClient.SendAsync(new BrokeredMessage(command));
+            await queueClient.SendAsync(BrokeredMessageFactory.CreateJsonMessage(command));
         }
 
-        private async Task NotifyTopic(OrderCreatedEvent orderCreatedEvent)
+        private async Task NotifyTopic(string topicName, object @event)
         {
             var client = TopicClient.CreateFromConnectionString(this.serviceBusConfiguration.ConnectionString, this.serviceBusConfiguration.OrderCreatedTopicName);
-            await client.SendAsync(new BrokeredMessage(orderCreatedEvent));
+            var msg = BrokeredMessageFactory.CreateJsonMessage(@event);
+                       
+            await client.SendAsync(msg);
         }      
     }
 }

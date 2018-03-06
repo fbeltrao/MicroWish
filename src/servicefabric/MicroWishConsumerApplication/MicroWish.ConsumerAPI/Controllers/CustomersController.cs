@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
 using Microsoft.Azure.Documents.Client;
 using Microsoft.Azure.Documents.Linq;
-using MicroWish.Consumer.Models;
+using MicroWish.Models;
 using Newtonsoft.Json;
 
 namespace MicroWish.ConsumerAPI.Controllers

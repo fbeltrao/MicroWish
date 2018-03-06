@@ -1,11 +1,9 @@
 ﻿using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
-using MicroWish.Consumer.ServiceFabric;
+using MicroWish.ServiceFabric;
 using System;
 using System.Collections.Generic;
 using System.Fabric;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MicroWish.Consumer.Contracts

@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using MicroWish.Consumer.Commands;
-using MicroWish.Consumer.Configuration;
+using MicroWish.Commands;
+using MicroWish.Configuration;
 using MicroWish.Consumer.Contracts;
-using MicroWish.Consumer.Events;
-using MicroWish.Consumer.Models;
-using MicroWish.Consumer.ServiceFabric;
+using MicroWish.Events;
+using MicroWish.Models;
+using MicroWish.ServiceBus;
+using MicroWish.ServiceFabric;
 
 namespace MicroWish.Consumer.OrderPaymentHandler
 {
@@ -44,7 +45,7 @@ namespace MicroWish.Consumer.OrderPaymentHandler
         {
             try
             {
-                var command = message.GetBody<VerifyOrderPaymentCommand>();
+                var command = message.GetJsonBody<VerifyOrderPaymentCommand>();
 
                 if (command.Order.State == OrderState.Created &&
                     command.Order.Payment != null &&
@@ -83,7 +84,7 @@ namespace MicroWish.Consumer.OrderPaymentHandler
             updatedOrder = await orderDataService.Update(updatedOrder);            
 
             // Send to topic "order finalized"
-            await NotifyTopic(new OrderFinalizedEvent(updatedOrder), this.serviceBusConfiguration.OrderFinalizedTopicName);
+            await NotifyTopic(this.serviceBusConfiguration.OrderFinalizedTopicName, new OrderFinalizedEvent(updatedOrder));
         }
 
         private async Task OrderPaymentFailed(OrderModel order, string v)
@@ -98,19 +99,19 @@ namespace MicroWish.Consumer.OrderPaymentHandler
             updatedOrder = await orderDataService.Update(updatedOrder);
 
             // Send to topic "order payment failed"
-            await NotifyTopic(new OrderFinalizedEvent(updatedOrder), this.serviceBusConfiguration.OrderPaymentFailedTopicName);
+            await NotifyTopic(this.serviceBusConfiguration.OrderPaymentFailedTopicName, new OrderFinalizedEvent(updatedOrder));
         }
 
         private async Task SendCommand(string queueName, object command)
         {
             var queueClient = QueueClient.CreateFromConnectionString(this.serviceBusConfiguration.ConnectionString, queueName);
-            await queueClient.SendAsync(new BrokeredMessage(command));
+            await queueClient.SendAsync(BrokeredMessageFactory.CreateJsonMessage(command));
         }
 
-        private async Task NotifyTopic(object @event, string topicName)
+        private async Task NotifyTopic(string topicName, object @event)
         {
             var client = TopicClient.CreateFromConnectionString(this.serviceBusConfiguration.ConnectionString, topicName);
-            await client.SendAsync(new BrokeredMessage(@event));
+            await client.SendAsync(BrokeredMessageFactory.CreateJsonMessage(@event));
         }
     }
 }

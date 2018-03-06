@@ -1,0 +1,39 @@
+### Get all vendors
+GET http://localhost:8307/api/vendors HTTP/1.1
+content-type: application/json
+
+### Create a vendor
+POST http://localhost:8307/api/vendors/ HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Vendor A",
+    "address" :  
+    {
+            "address": "My street 123",
+            "zipCode": "1321",
+            "city": "Amsterdam",
+            "isActual": true
+    }
+}
+
+### Get a vendor
+GET http://localhost:8307/api/vendors/de6b9761-b441-41b7-bb45-671db30ccb25 HTTP/1.1
+content-type: application/json
+
+
+
+### Update a vendor
+PUT http://localhost:8307/api/vendors/de6b9761-b441-41b7-bb45-671db30ccb25 HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Vendor A+1",
+    "address" :  
+    {
+            "address": "My street 123",
+            "zipCode": "1321",
+            "city": "Amsterdam",
+            "isActual": true
+    }
+}

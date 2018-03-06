@@ -99,30 +99,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\CreateOrderCommand.cs" />
-    <Compile Include="Commands\VerifyOrderPaymentCommand.cs" />
-    <Compile Include="Configuration\ServiceBusConfiguration.cs" />
     <Compile Include="Contracts\IOrderDataService.cs" />
     <Compile Include="Contracts\ServiceProxyUtils.cs" />
-    <Compile Include="Events\OrderPaymentFailedEvent.cs" />
-    <Compile Include="Events\OrderCreatedEvent.cs" />
-    <Compile Include="Events\OrderFinalizedEvent.cs" />
-    <Compile Include="Models\AddressModel.cs" />
-    <Compile Include="Models\CustomerAddressModel.cs" />
-    <Compile Include="Models\CustomerModel.cs" />
-    <Compile Include="Models\OrderInvalidStateException.cs" />
-    <Compile Include="Models\OrderItemModel.cs" />
-    <Compile Include="Models\OrderModel.cs" />
-    <Compile Include="Models\OrderNotFoundException.cs" />
-    <Compile Include="Models\OrderState.cs" />
-    <Compile Include="Models\PaymentModel.cs" />
-    <Compile Include="Models\PaymentStatus.cs" />
-    <Compile Include="Models\PendingPaymentModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceFabric\ServiceBusQueueListener.cs" />
-    <Compile Include="ServiceFabric\ServiceFabricExtensions.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\MicroWish.Common\MicroWish.Common.csproj">
+      <Project>{6E8A336F-9363-4D96-BE1D-118F82EBF45D}</Project>
+      <Name>MicroWish.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

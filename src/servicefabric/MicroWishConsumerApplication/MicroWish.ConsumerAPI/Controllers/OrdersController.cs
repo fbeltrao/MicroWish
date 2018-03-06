@@ -8,11 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.ServiceFabric.Services.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Client;
-using MicroWish.Consumer.Commands;
-using MicroWish.Consumer.Configuration;
+using MicroWish.Commands;
+using MicroWish.Configuration;
 using MicroWish.Consumer.Contracts;
-using MicroWish.Consumer.Models;
-using MicroWish.Consumer.ServiceFabric;
+using MicroWish.Models;
+using MicroWish.ServiceBus;
+using MicroWish.ServiceFabric;
 
 namespace MicroWish.ConsumerAPI.Controllers
 {
@@ -41,7 +42,7 @@ namespace MicroWish.ConsumerAPI.Controllers
                 command.OrderId = Guid.NewGuid();
 
             var queueClient = QueueClient.CreateFromConnectionString(this.serviceBusConfiguration.ConnectionString, this.serviceBusConfiguration.CreateOrderQueueName);
-            await queueClient.SendAsync(new BrokeredMessage(command));
+            await queueClient.SendAsync(BrokeredMessageFactory.CreateJsonMessage(command));
             return Ok(command.OrderId);
         }
 
