@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -59,6 +60,17 @@ namespace MicroWish.Data
                     );
                 }
             }
+            catch (DocumentClientException dce)
+            {
+                if (dce.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return default(TEntity);
+                }
+                else
+                {
+                    throw;
+                }
+            }
             catch (Exception ex)
             {
                 // TODO: handle error
@@ -75,6 +87,17 @@ namespace MicroWish.Data
                 using (var client = CreateConnection())
                 {
                     return await client.ReadDocumentAsync<TEntity>(documentUri);
+                }
+            }
+            catch (DocumentClientException dce)
+            {
+                if (dce.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return default(TEntity);
+                }
+                else
+                {
+                    throw;
                 }
             }
             catch (Exception ex)

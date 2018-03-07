@@ -5,13 +5,15 @@ VisualStudioVersion = 15.0.27428.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "MicroWishVendorApplication", "MicroWishVendorApplication\MicroWishVendorApplication.sfproj", "{B3F6253D-41B8-4547-9A5B-B464D21F4508}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroWish.Vendor.API", "MicroWish.Vendor.API\MicroWish.Vendor.API.csproj", "{82DECDEF-A27A-4908-B014-BC7C95D2D128}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MicroWish.Vendor.API", "MicroWish.Vendor.API\MicroWish.Vendor.API.csproj", "{82DECDEF-A27A-4908-B014-BC7C95D2D128}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroWish.Vendor.Common", "MicroWish.Vendor.Common\MicroWish.Vendor.Common.csproj", "{235E0A0A-F170-480F-BA1D-C6121510331B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroWish.Vendor.OrderFinalizedHandler", "MicroWish.Vendor.OrderFinalizedHandler\MicroWish.Vendor.OrderFinalizedHandler.csproj", "{2E97241A-2937-43D1-98CA-FE931B30EB95}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroWish.Common", "..\MicroWish.Common\MicroWish.Common.csproj", "{6E8A336F-9363-4D96-BE1D-118F82EBF45D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroWish.Vendor.ProductDataService", "MicroWish.Vendor.ProductDataService\MicroWish.Vendor.ProductDataService.csproj", "{3B002C47-4706-42F4-A25F-9616742DCE3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,12 @@ Global
 		{6E8A336F-9363-4D96-BE1D-118F82EBF45D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E8A336F-9363-4D96-BE1D-118F82EBF45D}.Release|x64.ActiveCfg = Release|Any CPU
 		{6E8A336F-9363-4D96-BE1D-118F82EBF45D}.Release|x64.Build.0 = Release|Any CPU
+		{3B002C47-4706-42F4-A25F-9616742DCE3E}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{3B002C47-4706-42F4-A25F-9616742DCE3E}.Debug|x64.ActiveCfg = Debug|x64
+		{3B002C47-4706-42F4-A25F-9616742DCE3E}.Debug|x64.Build.0 = Debug|x64
+		{3B002C47-4706-42F4-A25F-9616742DCE3E}.Release|Any CPU.ActiveCfg = Release|x64
+		{3B002C47-4706-42F4-A25F-9616742DCE3E}.Release|x64.ActiveCfg = Release|x64
+		{3B002C47-4706-42F4-A25F-9616742DCE3E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

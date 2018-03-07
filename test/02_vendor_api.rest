@@ -37,3 +37,35 @@ content-type: application/json
             "isActual": true
     }
 }
+
+
+### Gets vendor products
+GET http://localhost:8307/api/vendors/de6b9761-b441-41b7-bb45-671db30ccb25/products HTTP/1.1
+content-type: application/json
+
+
+### Gets single vendor product
+GET http://localhost:8307/api/vendors/de6b9761-b441-41b7-bb45-671db30ccb25/products/e74032b9-5ca6-41ef-82ba-b0e6fab40ae6 HTTP/1.1
+content-type: application/json
+
+### Create a product
+POST http://localhost:8307/api/vendors/de6b9761-b441-41b7-bb45-671db30ccb25/products HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Mayo",
+    "price": 4,
+    "enabled" : true,
+    "membersOnly": false
+}
+
+### Update a product
+PUT http://localhost:8307/api/vendors/de6b9761-b441-41b7-bb45-671db30ccb25/products/e74032b9-5ca6-41ef-82ba-b0e6fab40ae6 HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Mayo",
+    "price": 5,
+    "enabled" : true,
+    "membersOnly": false
+}

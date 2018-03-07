@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroWish.Consumer.OrderPay
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroWish.Common", "..\MicroWish.Common\MicroWish.Common.csproj", "{6E8A336F-9363-4D96-BE1D-118F82EBF45D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroWish.Consumer.ProductChangedHandler", "MicroWish.Consumer.ProductChangedHandler\MicroWish.Consumer.ProductChangedHandler.csproj", "{B55F147D-D0E6-4312-B279-4A2DA603C573}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,12 @@ Global
 		{6E8A336F-9363-4D96-BE1D-118F82EBF45D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E8A336F-9363-4D96-BE1D-118F82EBF45D}.Release|x64.ActiveCfg = Release|Any CPU
 		{6E8A336F-9363-4D96-BE1D-118F82EBF45D}.Release|x64.Build.0 = Release|Any CPU
+		{B55F147D-D0E6-4312-B279-4A2DA603C573}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{B55F147D-D0E6-4312-B279-4A2DA603C573}.Debug|x64.ActiveCfg = Debug|x64
+		{B55F147D-D0E6-4312-B279-4A2DA603C573}.Debug|x64.Build.0 = Debug|x64
+		{B55F147D-D0E6-4312-B279-4A2DA603C573}.Release|Any CPU.ActiveCfg = Release|x64
+		{B55F147D-D0E6-4312-B279-4A2DA603C573}.Release|x64.ActiveCfg = Release|x64
+		{B55F147D-D0E6-4312-B279-4A2DA603C573}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

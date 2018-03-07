@@ -35,6 +35,7 @@
     <ProjectReference Include="..\MicroWish.Consumer.OrderCreatedHandler\MicroWish.Consumer.OrderCreatedHandler.csproj" />
     <ProjectReference Include="..\MicroWish.Consumer.OrderDataService\MicroWish.Consumer.OrderDataService.csproj" />
     <ProjectReference Include="..\MicroWish.Consumer.OrderPaymentHandler\MicroWish.Consumer.OrderPaymentHandler.csproj" />
+    <ProjectReference Include="..\MicroWish.Consumer.ProductChangedHandler\MicroWish.Consumer.ProductChangedHandler.csproj" />
     <ProjectReference Include="..\MicroWish.ConsumerAPI\MicroWish.ConsumerAPI.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />

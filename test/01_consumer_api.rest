@@ -103,3 +103,10 @@ GET http://localhost:8832/api/orders/cdac8ab2-2dd8-4348-a2dd-f8708bfde6fd HTTP/1
 
 ### Get pending orders
 GET http://localhost:8832/api/orders/pending HTTP/1.1
+
+### Get products in catalog
+GET http://localhost:8832/api/products HTTP/1.1
+
+
+### Get specific product in catalog
+GET http://localhost:8832/api/products/e74032b9-5ca6-41ef-82ba-b0e6fab40ae6 HTTP/1.1

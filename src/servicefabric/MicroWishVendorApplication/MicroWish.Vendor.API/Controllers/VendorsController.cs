@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MicroWish.Models;
 using MicroWish.Vendor.API.Data;
+using MicroWish.Vendor.Contracts;
 
 namespace MicroWish.Vendor.API.Controllers
 {
@@ -13,8 +14,9 @@ namespace MicroWish.Vendor.API.Controllers
     public class VendorsController : Controller
     {
         private readonly VendorRepository repository;
+        private readonly FabricClient fabricClient;
 
-        public VendorsController(StatelessServiceContext context)
+        public VendorsController(StatelessServiceContext context, FabricClient fabricClient)
         {
             var configurationPackage = context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
 
@@ -26,9 +28,10 @@ namespace MicroWish.Vendor.API.Controllers
 
 
             this.repository = new VendorRepository(databaseEndpoint, databaseId, collectionName, authKey);
-
+            this.fabricClient = fabricClient;
         }
 
+        #region Vendors
         // GET: api/vendors/5
         [HttpGet("{vendorId}")]
         public async Task<IActionResult> Get(Guid vendorId)
@@ -115,5 +118,106 @@ namespace MicroWish.Vendor.API.Controllers
                 throw;
             }
         }
+        #endregion
+
+        #region Products
+
+        // GET: api/vendors/5/products
+        [HttpGet("{vendorId}/products/{productId}")]
+        public async Task<IActionResult> Product(Guid vendorId, Guid productId)
+        {
+
+            try
+            {
+                var product = await ServiceProxyUtils.GetProductService(productId).Get(productId);
+                return product == null ?
+                    (IActionResult)NotFound() :
+                    new OkObjectResult(product);
+            }
+            catch (Exception ex)
+            {
+                // TODO: handle error
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
+        // GET: api/vendors/5/products
+        [HttpGet("{vendorId}/products")]
+        public async Task<IActionResult> Products(Guid vendorId)
+        {
+
+            try
+            {
+                var products = new List<ProductModel>();
+                var productServices = await ServiceProxyUtils.GetProductServicePartitions(fabricClient);
+                foreach (var productService in productServices)
+                {
+                    products.AddRange(await productService.List(vendorId));
+                }
+
+
+                return new OkObjectResult(products);
+            }
+            catch (Exception ex)
+            {
+                // TODO: handle error
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
+        // POST: api/vendors/1/product/3
+        [HttpPost("{vendorId}/products/{productId?}")]
+        public async Task<IActionResult> CreateProduct(Guid vendorId, Guid? productId, [FromBody] ProductModel productModel)
+        {
+            try
+            {
+                if (!productId.HasValue)
+                    productId = Guid.NewGuid();
+
+                var createdProduct = productModel.Clone();
+                createdProduct.VendorId = vendorId;
+                createdProduct.CreationDate = DateTime.UtcNow;
+                createdProduct.LastUpdate = null;
+                createdProduct.Id = productId.Value;
+
+                var savedProduct = await ServiceProxyUtils.GetProductService(productId.Value).Create(createdProduct);
+
+                return CreatedAtAction(nameof(Product), new { vendorId = vendorId, productId = savedProduct.Id }, savedProduct);
+            }
+            catch (Exception ex)
+            {
+                // TODO: handle error
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
+        // PUT: api/vendors/5/products/
+        [HttpPut("{vendorId}/products/{productId}")]
+        public async Task<IActionResult> UpdateProduct(Guid vendorId, Guid productId, [FromBody] ProductModel product)
+        {
+            try
+            {
+                var updatedProduct = product.Clone();
+                updatedProduct.Id = productId;
+                updatedProduct.VendorId = vendorId;
+                updatedProduct.LastUpdate = DateTime.UtcNow;
+
+                var savedProduct = await ServiceProxyUtils.GetProductService(productId).Update(updatedProduct);
+
+                return new OkObjectResult(savedProduct);
+            }
+            catch (Exception ex)
+            {
+                // TODO: handle error
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                throw;
+            }
+        }
+
+        #endregion
+
     }
 }

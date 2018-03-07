@@ -59,7 +59,6 @@ namespace MicroWish.ConsumerAPI.Controllers
         [HttpGet("{customerId}")]
         public async Task<CustomerModel> Get(Guid customerId)
         {
-
             try
             {
                 Uri documentUri = UriFactory.CreateDocumentUri(databaseId, collectionName, customerId.ToString());

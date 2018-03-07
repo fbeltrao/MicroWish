@@ -34,6 +34,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MicroWish.Vendor.API\MicroWish.Vendor.API.csproj" />
     <ProjectReference Include="..\MicroWish.Vendor.OrderFinalizedHandler\MicroWish.Vendor.OrderFinalizedHandler.csproj" />
+    <ProjectReference Include="..\MicroWish.Vendor.ProductDataService\MicroWish.Vendor.ProductDataService.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <PropertyGroup>
