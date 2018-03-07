@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -12,6 +14,7 @@ namespace MicroWish.Models
 
         public Guid Id { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         [DataMember]
         public OrderState State { get; set; }
 

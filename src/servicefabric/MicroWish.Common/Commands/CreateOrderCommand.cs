@@ -18,12 +18,12 @@ namespace MicroWish.Commands
         public Guid CustomerId { get; set; }
 
         [DataMember]
-        public List<OrderItemModel> Items { get; set; }
+        public List<NewOrderItemModel> Items { get; set; }
 
         [DataMember]
         public AddressModel DeliveryAddress { get; set; }
 
         [DataMember]
         public PendingPaymentModel Payment { get; set; }
-    }
+    }   
 }

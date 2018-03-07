@@ -109,12 +109,14 @@
     <Compile Include="Contracts\IVendorAPIClient.cs" />
     <Compile Include="Data\DocumentRepository.cs" />
     <Compile Include="Events\OrderCreatedEvent.cs" />
+    <Compile Include="Events\OrderCreationFailedEvent.cs" />
     <Compile Include="Events\OrderFinalizedEvent.cs" />
     <Compile Include="Events\OrderPaymentFailedEvent.cs" />
     <Compile Include="Events\ProductChangedEvent.cs" />
     <Compile Include="Models\AddressModel.cs" />
     <Compile Include="Models\CustomerAddressModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
+    <Compile Include="Models\NewOrderItemModel.cs" />
     <Compile Include="Models\OrderInvalidStateException.cs" />
     <Compile Include="Models\OrderItemModel.cs" />
     <Compile Include="Models\OrderModel.cs" />

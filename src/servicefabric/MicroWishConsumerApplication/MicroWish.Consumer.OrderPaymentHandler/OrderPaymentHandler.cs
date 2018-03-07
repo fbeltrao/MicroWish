@@ -80,6 +80,7 @@ namespace MicroWish.Consumer.OrderPaymentHandler
             updatedOrder.State = OrderState.Finalized;
             updatedOrder.Payment.ProcessingDate = DateTime.UtcNow;
             updatedOrder.Payment.Status = PaymentStatus.Paid;
+            updatedOrder.SubmittedDate = DateTime.UtcNow;
 
             updatedOrder = await orderDataService.Update(updatedOrder);            
 

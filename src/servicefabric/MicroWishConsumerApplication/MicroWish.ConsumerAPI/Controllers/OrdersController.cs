@@ -43,7 +43,7 @@ namespace MicroWish.ConsumerAPI.Controllers
 
             var queueClient = QueueClient.CreateFromConnectionString(this.serviceBusConfiguration.ConnectionString, this.serviceBusConfiguration.CreateOrderQueueName);
             await queueClient.SendAsync(BrokeredMessageFactory.CreateJsonMessage(command));
-            return Ok(command.OrderId);
+            return CreatedAtAction(nameof(Get), new { orderId = command.OrderId }, command.OrderId);
         }
 
         // GET: api/orders/5

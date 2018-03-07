@@ -9,6 +9,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using MicroWish.Commands;
 using MicroWish.Configuration;
+using MicroWish.Consumer.Client;
 using MicroWish.Consumer.Contracts;
 using MicroWish.Events;
 using MicroWish.Models;
@@ -23,11 +24,13 @@ namespace MicroWish.Consumer.OrderCreatedHandler
     internal sealed class OrderCreatedHandler : StatelessService
     {
         private readonly ServiceBusConfiguration serviceBusConfiguration;
+        private readonly ICatalogProductAPIClient catalogProductAPIClient;
 
-        public OrderCreatedHandler(StatelessServiceContext context, ServiceBusConfiguration configuration)
+        public OrderCreatedHandler(StatelessServiceContext context, ServiceBusConfiguration configuration, ICatalogProductAPIClient catalogProductAPIClient)
             : base(context)
         {
             this.serviceBusConfiguration = configuration;
+            this.catalogProductAPIClient = catalogProductAPIClient;
         }
 
         /// <summary>
@@ -47,16 +50,40 @@ namespace MicroWish.Consumer.OrderCreatedHandler
             {
                 var command = message.GetJsonBody<CreateOrderCommand>();
 
+                var orderItems = new List<OrderItemModel>();
+                foreach (var item in command.Items)
+                {
+                    var product = await this.catalogProductAPIClient.Get(item.ProductId);
+                    if (product == null)
+                    {
+                        await NotifyTopic(this.serviceBusConfiguration.OrderCreationFailedTopicName, new OrderCreationFailedEvent()
+                        {
+                            OrderId = command.OrderId,
+                            Reason = $"Product {item.ProductId} not found",
+                        });
+                    }
+
+                    var orderItem = new OrderItemModel()
+                    {
+                        ProductId = product.Id,
+                        Quantity = item.Quantity,
+                        UnitPrice = product.Price,
+                        Price = product.Price * item.Quantity,
+                        VendorId = product.VendorId
+                    };
+                    orderItems.Add(orderItem);
+                }
+
                 var order = new OrderModel()
                 {
                     Id = command.OrderId,
                     CreationDate = DateTime.UtcNow,
                     State = OrderState.Created,
-                    Items = command.Items,
+                    Items = orderItems,
                     DeliveryAddress = command.DeliveryAddress,
                 };
 
-                order.Total = order.Items.Sum(x => x.UnitPrice * x.Quantity);
+                order.Total = order.Items.Sum(x => x.Price);
                 order.Payment = new PaymentModel()
                 {
                     CreditCardNumber = command.Payment.CreditCardNumber,
@@ -74,7 +101,7 @@ namespace MicroWish.Consumer.OrderCreatedHandler
                 // Send to topic "ordercreated"
                 await NotifyTopic(this.serviceBusConfiguration.OrderCreatedTopicName, new OrderCreatedEvent(createdOrder));
 
-                // Send to queue "orderverifyinventory"
+                // Send to queue "orderverifypayment"
                 await SendCommand(this.serviceBusConfiguration.VerifyOrderPaymentQueueName, new VerifyOrderPaymentCommand(createdOrder));
             }
             catch (Exception ex)

@@ -21,5 +21,7 @@ namespace MicroWish.Configuration
         public string OrderFinalizedTopicName { get; set; } = "orderfinalized";
 
         public string ProductChangedTopicName { get; set; } = "productchanged";
+
+        public string OrderCreationFailedTopicName { get; set; } = "ordercreationfailed";
     }
 }

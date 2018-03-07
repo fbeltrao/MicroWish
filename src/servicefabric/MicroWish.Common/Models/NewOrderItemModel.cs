@@ -6,13 +6,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MicroWish.Models
-{    
-    public enum OrderState
+{
+    [DataContract]
+    public class NewOrderItemModel
     {
-        Created,
-        Canceled,
-        Finalized,
-        Delivered,
-        Failed
+        [DataMember]
+        public Guid ProductId { get; set; }
+
+        [DataMember]
+        public int Quantity { get; set; }
     }
 }

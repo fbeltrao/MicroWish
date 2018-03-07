@@ -59,13 +59,25 @@ content-type: application/json
     "membersOnly": false
 }
 
-### Update a product
+### Update Mayo product
 PUT http://localhost:8307/api/vendors/de6b9761-b441-41b7-bb45-671db30ccb25/products/e74032b9-5ca6-41ef-82ba-b0e6fab40ae6 HTTP/1.1
 content-type: application/json
 
 {   
     "name": "Mayo",
     "price": 5,
+    "enabled" : true,
+    "membersOnly": false
+}
+
+
+### Update Honey product
+PUT http://localhost:8307/api/vendors/de6b9761-b441-41b7-bb45-671db30ccb25/products/5026869c-f300-4eed-88f9-aa89af990fe2 HTTP/1.1
+content-type: application/json
+
+{   
+    "name": "Honey",
+    "price": 1.5,
     "enabled" : true,
     "membersOnly": false
 }
